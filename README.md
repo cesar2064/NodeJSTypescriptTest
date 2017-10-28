@@ -121,7 +121,7 @@ let app: App = {
 This api is validated agains a json schema
 
 - **GET /capitals/weather?countries=peru,panama,colombia** -> used for retrieving countries capitals, it recieves countries as a query param separated by commas. 
-You should send the token via Authorization Header, 
+You must send the token via Authorization Header, 
 ```
 Authorization:JWT eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6MX0sImlhdCI6MTUwOTE2NDQ3MywiZXhwIjoxNTA5MTc1MjczfQ.1EVwDyWKiJwu9LJbWezEiIBcFr6Ps35e79FisnbtPUE6ceDD4KnBKqeZR7nN8J4U5gOGu2lMzWEvyMshXMNKVw
 ```
