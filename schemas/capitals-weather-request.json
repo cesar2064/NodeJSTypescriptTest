@@ -1,0 +1,10 @@
+{
+    "title": "capitalsWeather",
+    "type": "array",
+    "items": {
+        "type": "string"
+    },
+    "minItems": 1,
+    "maxItems": 30,
+    "uniqueItems": true
+}

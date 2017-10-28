@@ -1,0 +1,29 @@
+{
+  "name": "testtypescript",
+  "version": "1.0.0",
+  "description": "A test made in typescript and nodejs",
+  "main": "./dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "sync-database": "node ./scripts/sync-database",
+    "create-user": "node ./scripts/create-user",
+    "start": "npm run build && node ./dist/server.js"
+  },
+  "author": "César Augusto Balcazar De los Santos",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^5.3.0",
+    "bcrypt": "^1.0.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "config": "^1.27.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "request-promise": "^4.2.2",
+    "sequelize": "^4.17.0",
+    "sqlite3": "^3.1.13",
+    "typescript": "^2.5.3",
+    "uuid": "^3.1.0"
+  }
+}
