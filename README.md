@@ -21,7 +21,96 @@ Execute the following command: npm start, the server runs by default in port 300
 
 ## Documentation
 
-## Available apis:
+### Routes
+- You can create a route by creating a typescript file in ./src/routes
+- You must add the controller decorator to the class and extends AppClass abstract class:
+```
+@controller({
+    path: '/auth', //the controller main path
+    middleware: [] //the controller middleware
+})
+//AppClass class  app object injection
+export class Auth extends AppClass { 
+    ...more code
+```
+- You must add a route path by creating a method with their respective decorator:
+```
+@path({
+    path: '/',
+    middleware: [
+        'BodyParser.json()', //Middleware is found by using the Middleware class name and evaluating the method part
+        'AjvMiddleware.loginValidation()' //this method for example returns the middleware function,
+        'AnotherClassName.method'// this method is the middleware function
+    ],
+    methods: ['post']
+})
+//req, res and next corresponding to express objects for routes.
+async login(req, res, next) {
+    ...more code
+```
+- You must add the route to ./dist/index.ts array:
+```
+export let routes = [
+    require('./auth.route').Auth,
+    require('./capitals.route').Capitals
+]
+```
+- this array is parsed to express routes
+
+### Models
+- You can create a model by creating a typescript file in ./src/models
+- You must add the model decorator, extends AppClass and implements ModelInterface to the class:
+```
+//recieves sequelize mode options objects
+@model({
+    tableName: 'users'
+})
+export default class UserModel extends AppClass implements ModelInterface 
+```
+- You can add sequelize model attributes by adding column decorator
+```
+@column
+//the object of the property corresponds to sequelize model attribute object options
+name = {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+}
+```
+- Also model has too functions available:
+```
+//Do here all sequelize model association
+associate(model: any, models: any): void {}
+
+//Do here all sequelize model methods, for example sequelize hooks
+execute(model: any): void {}
+```
+- All classes are parsed to sequelize models and placed in the app object with their respective name this.app.models.ModelName
+
+### Services
+- You can create a service by creating a typescript file in ./src/services
+- The class is a common typescript class:
+```
+//You should extend AppClass
+export class CapitalService extends AppClass {
+    ...more code
+```
+- All classes are instantiated and place in app object with their respective name this.app.services.ServiceName
+
+### The app object
+- The app object is created in the script ./src/app.ts
+- This object is injected to services, middleware and models classes, when you extends the abstract AppClass class
+- This has the following keys:
+```
+let app: App = {
+    models: {}, //the app models which parsed to sequelize model instances
+    services: {},//the app services instances
+    sequelize: {}, // the sequelize instance
+    middlewares: {}// the app middlewares Classes, they are instantiated in app routes classes parsing
+};
+```
+
+### Available apis:
 - **POST /auth** -> used for authenticate the user, it recieves a json body with two keys
 ```
 {
@@ -29,6 +118,10 @@ Execute the following command: npm start, the server runs by default in port 300
     "password":"123456"
 }
 ```
+This api is validated agains a json schema
+
+- **GET /capitals/weather?countries=peru,panama,colombia** -> used for retrieving countries capitals, it recieves countries as a query param separated by commas
+
 ### Used npm Libraries
 These libraries are used by the project, **you don't have to install them manually**.
 - **ajv >= 5.3.0** -> json validation in requests
@@ -51,5 +144,18 @@ These libraries are used by the project, **you don't have to install them manual
 - **npm start** -> starts the server
 
 ## Project structure:
-- ./config: In this folder the config files are placed
-- ./dist: this folder
+- **./config**: In this folder the config files are placed
+- **./dist**: this folder contais the transpiled typescrit
+- **./schemas**: contains the json schemas for requests validations
+- **./scripts**: contains the npm scripts source
+- **./src**: contains typescript source
+    - **./src/abstract**: contains project abstract classes
+    - **./src/decorators**: Typescript decorators helpers for routes and models
+    - **./src/interfaces**: project interfaces
+    - **./src/lib**: Utilitary libs for using in the project, like parsing class routes to express route functions, models to sequelize classes, etc.
+    - **./src/middlewares**: Classes which handles requests before entering to the route, example: ajv library verifying json bodies, etc. Those clases are parsed to express middleware functions
+    - **./src/models**: Classes which represents sequelize models.
+    - **./src/routes**: Classes which represent express routes.
+    - **./src/services**: Classes which contains data bussiness logic.
+- **./app.ts**: This file creates the app object which contains the services, models, middleware and sequelize instance object.
+- **./server.ts**: This script handles and start the express server.

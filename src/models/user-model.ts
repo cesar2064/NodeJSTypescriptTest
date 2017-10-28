@@ -24,7 +24,7 @@ export default class UserModel extends AppClass implements ModelInterface {
         allowNull: false
     }
 
-    associate(model: any, models: Array<any>): void {}
+    associate(model: any, models: any): void {}
 
     execute(model: any): void {
         //encrypts user password before is saved in database
