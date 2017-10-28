@@ -28,6 +28,11 @@ server.use((data, req, res, next) => {
     res.json(responseData);
 })
 
+server.use((req, res, next) => {
+    res.status(404);
+    res.json({statusCode:404, result: 'Resource not found'})
+});
+
 server.listen(config.get('server.port'), () => {
     console.log('Example app listening on port 3000!');
 });

@@ -13,15 +13,25 @@
    git clone https://github.com/cesar2064/NodeJSTypescriptTest.git
 3. Move to project root folder: cd NodeJSTypescriptTest
 4. Install project libraries : npm i
+5. Syncronize the database: npm run sync-database
+6. Create a user for accessing the app: npm run create-user -- name:user1 password:password
 
 ### Start the server
-Execute the following command: npm start
+Execute the following command: npm start, the server runs by default in port 3000, example: http://localhost:3000. See Available apis in Documentation part.
 
 ## Documentation
 
+## Available apis:
+- **POST /auth** -> used for authenticate the user, it recieves a json body with two keys
+```
+{
+    "name": "user1",
+    "password":"123456"
+}
+```
 ### Used npm Libraries
 These libraries are used by the project, **you don't have to install them manually**.
-- **ajv >= 5.3.0** -> json validation
+- **ajv >= 5.3.0** -> json validation in requests
 - **bcrypt >= 1.0.3** -> encrypts user passwords
 - **bluebird >=3.5.1** -> handles asynchronous code
 - **body-parser >= 1.18.2** -> parses json body in requests
@@ -34,4 +44,12 @@ These libraries are used by the project, **you don't have to install them manual
 - **sqlite3 >=3.1.13** -> Sqlite library for connecting and querying sqlite (used by sqlite)
 - **typescript >=2.5.3** -> Handles and transpiles typescript language in the project
 
-##  
+## Available npm commands:
+- **npm run build** -> transpiles typescript code, it creates a new folder in the project named ./dist
+- **npm run sync-database** -> syncronizes sqlite database structure.
+- **npm run create-user** -> creates a user in the database and for the application, it recieves two params (name and password), example: npm run create-user -- name:user1 password:password
+- **npm start** -> starts the server
+
+## Project structure:
+- ./config: In this folder the config files are placed
+- ./dist: this folder
